@@ -39,6 +39,8 @@ def findDuplicate_sol1(nums):
     return -1
 
 #Solution:2 - Using Set to store unique values
+#Time:O(N)
+#Space: O(N)
 def findDuplicate_sol2(nums):
     visited = set()
     for i in nums:
@@ -46,11 +48,30 @@ def findDuplicate_sol2(nums):
             return i
         visited.add(i)
 
+#Solution:3 - Using slow-fast pointer technique/Linked list cycle detection
+#Time:O(N)
+#Space: O(1)
+def findDuplicate_sol3(nums):
+    #step-1: Find the intersection point of two runners, by running slow 1 step and fast 2 steps ahead
+    slow = fast = nums[0]
+    while True:
+        slow = nums[slow]
+        fast = nums[nums[fast]]
+        if slow == fast:
+            break
+    #step-2: Find the cycle point
+    slow = nums[0]
+    while slow != fast:
+        slow = nums[slow]
+        fast = nums[fast]
+    
+    return slow
+
 def main():
     t = inp()
     while t > 0:
         arr = inlt()
-        print(findDuplicate_sol2(arr))
+        print(findDuplicate_sol3(arr))
         t -= 1
     sys.stdout.close()
     sys.stdin.close()
